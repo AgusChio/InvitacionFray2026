@@ -139,7 +139,6 @@
     </section>
 
     <footer class="foot">
-      <button class="btn btn-outline small" onclick="window.print()">${I.print} Imprimir versión A4</button>
       <p>${E.colegio} ${E.nombre} · ${E.localidad}</p>
     </footer>
 
