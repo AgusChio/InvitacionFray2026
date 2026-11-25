@@ -190,8 +190,11 @@ body.opened .music { display: grid; }
   body { font-size: 17px; }
   .names-list { columns: 1; }
   .section { padding: 60px 18px; }
-  .cd div { min-width: 66px; }
-  .cd b { font-size: 1.9rem; }
+  .countdown { padding: 48px 14px; }
+  .cd { flex-wrap: nowrap; gap: 8px; }
+  .cd div { min-width: 0; flex: 1; padding: 12px 4px; }
+  .cd b { font-size: 1.7rem; }
+  .cd span { letter-spacing: 1px; font-size: .58rem; }
 }
 
 /* ---------- Refinamientos de estilo ---------- */

@@ -111,7 +111,6 @@
         <div><b id="cdD">0</b><span>días</span></div>
         <div><b id="cdH">0</b><span>horas</span></div>
         <div><b id="cdM">0</b><span>min</span></div>
-        <div><b id="cdS">0</b><span>seg</span></div>
       </div>
     </section>
 
@@ -248,7 +247,6 @@
     $("cdD").textContent = Math.floor(s / 86400);
     $("cdH").textContent = String(Math.floor(s % 86400 / 3600)).padStart(2, "0");
     $("cdM").textContent = String(Math.floor(s % 3600 / 60)).padStart(2, "0");
-    $("cdS").textContent = String(s % 60).padStart(2, "0");
     setTimeout(tick, 1000);
   }
   tick();
