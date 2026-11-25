@@ -91,8 +91,9 @@ body:not(.opened) { overflow: hidden; }
 .school { font-family: "Cinzel", serif; letter-spacing: 3px; font-size: .95rem; margin-top: 18px; text-transform: uppercase; }
 .school-name { font-family: "Cinzel", serif; font-size: 1.6rem; color: var(--gold); }
 .promo { font-family: "Cinzel", serif; font-weight: 700; font-size: clamp(2.6rem, 10vw, 4.6rem); letter-spacing: .1em; line-height: 1.05; text-shadow: 0 4px 20px rgba(0,0,0,.3); }
+body[class*="curso"] .promo { font-size: clamp(3rem, 11.5vw, 5.3rem); }
 .yt-hidden { position: fixed; left: -300px; bottom: 0; width: 200px; height: 200px; opacity: 0; pointer-events: none; overflow: hidden; }
-.intro-promo { font-family: "Cinzel", serif; font-weight: 700; font-size: 1.55rem; letter-spacing: 4px; color: #fff; margin: 14px 0 4px; }
+.intro-promo { font-family: "Cinzel", serif; font-weight: 700; font-size: 1.75rem; letter-spacing: 1.5px; color: #fff; margin: 14px 0 4px; }
 .course-badge {
   margin-top: 22px; font-family: "Cinzel", serif; font-size: 2rem; color: var(--accent-dark);
   background: linear-gradient(135deg, var(--gold), var(--gold-dark)); padding: 8px 34px; border-radius: 50px;
