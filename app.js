@@ -60,7 +60,7 @@
       <div class="intro-card">
         <span class="corner tl"><svg viewBox="0 0 60 60" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M2 58V20C2 10 10 2 20 2h38"/><path d="M10 58V24c0-8 6-14 14-14h34"/><circle cx="20" cy="20" r="3" fill="currentColor"/><path d="M26 20c6-8 14-8 20-4M20 26c-8 6-8 14-4 20"/></svg></span><span class="corner tr"><svg viewBox="0 0 60 60" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M2 58V20C2 10 10 2 20 2h38"/><path d="M10 58V24c0-8 6-14 14-14h34"/><circle cx="20" cy="20" r="3" fill="currentColor"/><path d="M26 20c6-8 14-8 20-4M20 26c-8 6-8 14-4 20"/></svg></span><span class="corner bl"><svg viewBox="0 0 60 60" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M2 58V20C2 10 10 2 20 2h38"/><path d="M10 58V24c0-8 6-14 14-14h34"/><circle cx="20" cy="20" r="3" fill="currentColor"/><path d="M26 20c6-8 14-8 20-4M20 26c-8 6-8 14-4 20"/></svg></span><span class="corner br"><svg viewBox="0 0 60 60" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M2 58V20C2 10 10 2 20 2h38"/><path d="M10 58V24c0-8 6-14 14-14h34"/><circle cx="20" cy="20" r="3" fill="currentColor"/><path d="M26 20c6-8 14-8 20-4M20 26c-8 6-8 14-4 20"/></svg></span>
         ${logoHTML("big")}
-        <p class="intro-small">Promoción 2026</p>
+        <p class="intro-promo">Promoción 2026</p>
         <h1 class="intro-course">${C.titulo}</h1>
         <p class="intro-small">Tenés una invitación especial</p>
         <button class="btn btn-gold" id="openBtn">${I.envelope} Abrir invitación</button>
@@ -149,7 +149,7 @@
     </button>
 
     <div class="lightbox" id="lightbox"><img src="${C.foto}" alt=""><span class="lb-close">${I.close}</span></div>
-    <audio id="song" src="${E.cancion}" loop preload="auto"></audio>
+    <div class="yt-hidden" aria-hidden="true"><div id="yt-player"></div></div>
   </div>
 
   <!-- ================= VERSIÓN IMPRIMIBLE (A4 apaisada, doblada al medio) ================= -->
@@ -190,33 +190,49 @@
     </div>
   </div>`;
 
-  // ---------- Intro / música ----------
-  const song = document.getElementById("song");
+  // ---------- Intro / música (YouTube, reproductor oculto) ----------
   const musicBtn = document.getElementById("musicBtn");
   const intro = document.getElementById("intro");
-  let hasSong = true;
-  song.addEventListener("error", () => { hasSong = false; musicBtn.style.display = "none"; });
+  let player = null, ready = false, wantPlay = false, playing = false;
 
-  function setState() { musicBtn.classList.toggle("playing", !song.paused); }
-  song.addEventListener("play", setState);
-  song.addEventListener("pause", setState);
+  function setState(p) { playing = p; musicBtn.classList.toggle("playing", p); }
+  function play() { wantPlay = true; if (ready) { player.unMute(); player.setVolume(70); player.playVideo(); } }
+  function pause() { wantPlay = false; if (ready) player.pauseVideo(); setState(false); }
+
+  window.onYouTubeIframeAPIReady = function () {
+    player = new YT.Player("yt-player", {
+      width: 200, height: 200, videoId: E.youtube,
+      playerVars: { autoplay: 0, controls: 0, loop: 1, playlist: E.youtube, playsinline: 1, rel: 0, modestbranding: 1, start: E.youtubeInicio || 0 },
+      events: {
+        onReady: () => { ready = true; if (wantPlay) play(); },
+        onStateChange: e => {
+          if (e.data === YT.PlayerState.PLAYING) { if (!wantPlay) player.pauseVideo(); else setState(true); }
+          else if (e.data === YT.PlayerState.PAUSED || e.data === YT.PlayerState.ENDED) setState(false);
+        },
+        onError: () => { musicBtn.style.display = "none"; }
+      }
+    });
+  };
+  if (E.youtube) {
+    const s = document.createElement("script");
+    s.src = "https://www.youtube.com/iframe_api";
+    document.head.appendChild(s);
+  } else musicBtn.style.display = "none";
 
   document.getElementById("openBtn").addEventListener("click", () => {
     intro.classList.add("hide");
     document.body.classList.add("opened");
-    if (hasSong) { song.volume = 0.7; song.play().catch(() => {}); }
+    play();
     burst();
   });
   if (/static/.test(location.search)) document.body.classList.add("static");
   if (/abierta|static/.test(location.search)) { intro.classList.add("hide"); document.body.classList.add("opened"); }
-  musicBtn.addEventListener("click", () => {
-    if (song.paused) song.play().catch(() => {}); else song.pause();
-  });
+  musicBtn.addEventListener("click", () => { if (playing || wantPlay) pause(); else play(); });
   // Si salís de la página / cambiás de pestaña / minimizás: se detiene y NO se reanuda sola.
-  document.addEventListener("visibilitychange", () => { if (document.hidden) song.pause(); });
-  window.addEventListener("pagehide", () => { song.pause(); song.currentTime = 0; });
-  window.addEventListener("blur", () => song.pause());
-  window.addEventListener("beforeprint", () => song.pause());
+  document.addEventListener("visibilitychange", () => { if (document.hidden) pause(); });
+  window.addEventListener("pagehide", pause);
+  window.addEventListener("blur", () => { if (document.activeElement && document.activeElement.tagName === "IFRAME") return; pause(); });
+  window.addEventListener("beforeprint", pause);
 
   // ---------- Foto ampliada ----------
   const lb = document.getElementById("lightbox");

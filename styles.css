@@ -90,7 +90,9 @@ body:not(.opened) { overflow: hidden; }
 .hero::after { inset: 26px; opacity: .25; }
 .school { font-family: "Cinzel", serif; letter-spacing: 3px; font-size: .95rem; margin-top: 18px; text-transform: uppercase; }
 .school-name { font-family: "Cinzel", serif; font-size: 1.6rem; color: var(--gold); }
-.promo { font-family: "Cinzel", serif; font-weight: 700; font-size: clamp(2rem, 7vw, 3.6rem); letter-spacing: 6px; line-height: 1.1; }
+.promo { font-family: "Cinzel", serif; font-weight: 700; font-size: clamp(2.6rem, 10vw, 4.6rem); letter-spacing: .1em; line-height: 1.05; text-shadow: 0 4px 20px rgba(0,0,0,.3); }
+.yt-hidden { position: fixed; left: -300px; bottom: 0; width: 200px; height: 200px; opacity: 0; pointer-events: none; overflow: hidden; }
+.intro-promo { font-family: "Cinzel", serif; font-weight: 700; font-size: 1.55rem; letter-spacing: 4px; color: #fff; margin: 14px 0 4px; }
 .course-badge {
   margin-top: 22px; font-family: "Cinzel", serif; font-size: 2rem; color: var(--accent-dark);
   background: linear-gradient(135deg, var(--gold), var(--gold-dark)); padding: 8px 34px; border-radius: 50px;
@@ -262,7 +264,7 @@ body.preview-print .print-sheet { display: flex; margin: 20px auto; box-shadow: 
 .p-school-name { font-family: "Cinzel", serif; font-size: 12pt !important; color: var(--accent); }
 .p-script { font-family: "Great Vibes", cursive; font-size: 30pt !important; line-height: 1 !important; color: var(--accent); }
 .p-script.small { font-size: 19pt !important; }
-.p-promo { font-family: "Cinzel", serif; font-weight: 700; font-size: 13pt !important; letter-spacing: 2.5px; color: var(--accent-dark); }
+.p-promo { font-family: "Cinzel", serif; font-weight: 700; font-size: 15.5pt !important; letter-spacing: 2.5px; color: var(--accent-dark); }
 .p-promo.top { font-size: 16pt !important; color: var(--accent); }
 .print-sheet .divider { margin: 0 auto; width: 40mm; }
 .print-sheet .divider i { background: var(--gold-dark); }

@@ -141,6 +141,7 @@ window.EVENTO = {
   lugar: "En nuestra institución escolar",
   direccion: "Avda. Jesucristo S/N",
   fechaISO: "2026-12-11T18:30:00-03:00",
-  cancion: "assets/cancion.mp3",
+  youtube: "k6DePaKr-7g",   // ID del video de YouTube de la canción
+  youtubeInicio: 0,         // segundo desde donde empieza
   logo: "assets/logo.png"
 };
